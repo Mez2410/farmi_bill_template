@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">farmi_bill</string>
+
+    <string name="company_name_header_bill">Farmi Service Trading Co., Ltd.</string>
+    <string name="phone_number_header_bill">Số điện thoại: %s</string>
+    <string name="email_header_bill">Email: %s</string>
+    <string name="bill_code_label_header_bill">Hóa đơn số</string>
+    <string name="employee_name_header_bill">Nhân viên: %s</string>
+    <string name="date_time_create_bill">Ngày bán: %s</string>
+    <string name="product_name_label_bill">Sản phẩm</string>
+    <string name="quantity_product_label_bill">SL</string>
+    <string name="price_product_label_bill">Đ.Giá</string>
+    <string name="to_money_label_bill">T.Tiền</string>
+    <string name="discount_label_bill">Giảm giá: %s</string>
+    <string name="total_money_label_bill">T.Cộng</string>
+    <string name="promotion_price_label_bill">K.Mãi</string>
+    <string name="payment_must_label_bill">Phải trả</string>
+    <string name="payment_by_cash_value_bill">Tiền mặt</string>
+    <string name="excess_cash_value_bill">Tiền thừa</string>
+    <string name="payment_by_zalopay_value_bill">ZaloPay</string>
+    <string name="payment_by_card_value_bill">Card</string>
 </resources>
