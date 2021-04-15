@@ -7,16 +7,20 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import android.icu.text.CaseMap
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.print.PrintAttributes
 import android.print.pdf.PrintedPdfDocument
 import android.text.Layout
 import android.text.TextPaint
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.Exception
 import java.nio.file.Files
 
 
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             pdfDoc.finishPage(page)
         }
 
-        writeToFile(pdfDoc)
+        writeToFileExternal(pdfDoc)
     }
 
     private fun drawHeader(canvas: Canvas) {
@@ -188,24 +192,54 @@ class MainActivity : AppCompatActivity() {
         canvas.drawPaymentTypeValue(textPaint, paymentExcessValue, marginTopPayment)
     }
 
-    private fun writeToFile(pdfDocument: PdfDocument) {
+    private fun isExtStorageAvail(): Boolean {
+        val extStorageState = Environment.getExternalStorageState()
+        if (Environment.MEDIA_MOUNTED == extStorageState) return true
+        return false
+    }
+
+
+    private fun writeToFileExternal(pdfDocument: PdfDocument) {
         val billCode = System.currentTimeMillis()
 
+        /**
+         * Save to file External
+         */
+        /*
         val dir = File(this.filesDir, "FarmiBill")
+
         if (!dir.exists()) {
             dir.mkdir()
         }
         try {
             val billFile = File(dir, "bill_layout_$billCode.pdf")
-            val fileIsExist = billFile.exists()
-//            if (fileIsExist) {
-//                billFile.delete()
-//            }
             val fos = FileOutputStream(billFile)
             pdfDocument.writeTo(fos)
             pdfDocument.close()
         } catch (e: Exception) {
             Log.e(TAG, "writeToFileError: ${e.message}")
+        }
+         */
+        Log.d(TAG, "isExtStorageAvail: ${isExtStorageAvail()}")
+
+        /**
+         * Save to file external storage
+         */
+        if (isExtStorageAvail()) {
+            // val billFile = File(getExternalFilesDir("FarmiPos"), "bill_$billCode.pdf")
+            val root = this.getExternalFilesDir("/") // Position: storage/emulated/0/Android/data/mez.com.base.farmi_bill/files
+            val dir = File(root?.absolutePath + "/FarmiPos")
+            if (!dir.exists()) {
+                dir.mkdir()
+            }
+            try {
+                val billFile = File(dir, "bill_$billCode.pdf")
+                val fos = FileOutputStream(billFile)
+                pdfDocument.writeTo(fos)
+                pdfDocument.close()
+            } catch (e: Exception) {
+                Log.e(TAG, "writeToFileError: ${e.message}")
+            }
         }
     }
 
